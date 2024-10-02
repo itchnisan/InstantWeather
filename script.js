@@ -51,7 +51,7 @@ function getCitiesAsOptions(citiesArray){
     }
 
     //An array that will contain the options
-    let options[cititesNb]; 
+    let options = new Array(cititesNb); 
 
     //The city being treated 
     let city; 
