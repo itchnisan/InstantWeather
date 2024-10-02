@@ -4,9 +4,28 @@
 
 
 
+//function apiMeteoConcept
 
+async function fetchMeteoByCommune(cityCode) {
+    try {
+        const response = await fetch(
+            `https://api.meteo-concept.com/api/forecast/daily/0?token=02eb3bfd78846c99ce1cfbcf5da2535a16e462a19a8a464bcf1bad211f631ef9&insee=${cityCode}`
+        );
+        const data = await response.json();
+        
+        //create tab for data
+        let tab = new Array(4) ;
+        // Clear previous content
+        tab[0] = data.forecast.tmax;
+        tab[1] = data.forecast.tmin;
+        tab[2] = data.forecast.sun_hours;
+        tab[3] = data.city.probarain;
 
-
+    } catch (error) {
+        console.error("Error during the request to the API:", error);
+    }
+    return tab;
+}
 
 
 
