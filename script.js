@@ -1,7 +1,21 @@
 
+//Getting the elements from the DOM
+const inputZipCodeElement = document.getElementById("inputZipCode");
+const selectCityElement = document.getElementById("selectCity"); 
 
 
 
+
+/*
+ *adding a listener on the zipCode input field 
+ */
+ inputZipCodeElement.addEventListener('keydown', async (evt)=>{
+
+    //If the key pressed is enter
+    if(evt.key == "Enter"){
+
+        //Preventing the submission of the form
+        evt.preventDefault(); 
 
 
 //function apiMeteoConcept
@@ -48,6 +62,27 @@ function display(tab){
     weatherDiv.appendChild(weatherSunHours);
 }
 
+        //Verifying that the number entered is really a zip Code
+        const zipCodeFormat = /^\d{5}$/; 
+        if(!(zipCodeFormat.test(inputZipCodeElement.value))){
+            alert('vous devez rentrer un code postale'); 
+        }
+
+        else{
+            //getting the array of ciites returned by the API request 
+            let citiesArray = await getCities(inputZipCodeElement.value); 
+
+
+            //Getting the array of options to add to the city select menu
+            let options = getCitiesAsOptions(citiesArray); 
+
+            //Adding the options to the select menu
+            putOptionsInMenu(options); 
+        }
+
+    }
+    
+ });
 
 
 
@@ -65,16 +100,18 @@ async function getCities(zipCode){
 
     try {
         //Requestig the cities from the API
-        const request = await fetch('https://geo.api.gouv.fr/communes?codePostal='+zipCode);   
+        const request = await fetch('https://geo.api.gouv.fr/communes?codePostal='+zipCode);
+
+        //Getting the cities Array
+        const citiesArray = await request.json();
+        
+        //Returning the array of objects returned by the request
+        return citiesArray; 
     } 
     catch (error) {
         console.error("There was an error while getting the cities : ", error); 
         return -1; 
     }
-
-    //Returning the array of objects returned by the request
-    const citiesArray = request.json(); 
-    return citiesArray; 
 }
 
 
@@ -84,17 +121,19 @@ async function getCities(zipCode){
 function getCitiesAsOptions(citiesArray){
 
     // getting the number of cities found
-    let citiesNb = citiesArray.legnth; 
+    let citiesNb = (citiesArray.length);
+     
 
     //If the number is less than 0, an error is returned 
     if(citiesNb <= 0){
+        window.alert("Veuillez entrer un code postale valide"); 
         console.error("You have to enter an array with at least one element for this fucntion"); 
         return -1; 
     }
 
     //An array that will contain the options
-    let options = new Array(cititesNb); 
-
+    let options = new Array(citiesNb); 
+    
     //The city being treated 
     let city; 
 
@@ -103,18 +142,24 @@ function getCitiesAsOptions(citiesArray){
 
     for(let cityNum = 0 ; citiesNb > cityNum ; cityNum++){
 
+        console.log("city num = "+cityNum+"\n");
+
         //Creating a new option
         option = document.createElement("option"); 
+
         //getting the current city 
         city = citiesArray[cityNum]; 
+        console.log("city being created : "+city+"\n"); 
 
         //Setting the attributes of the option
         option.value = city.code; 
         option.textContent = city.nom; 
 
         //Putting the option in the array
+        console.log(option+"\n"); 
         options[cityNum] = option; 
     }
+
 
     return options; 
 }
@@ -125,7 +170,7 @@ function getCitiesAsOptions(citiesArray){
  */ 
 function putOptionsInMenu(options){
 
-    const selectCityElement = document.getElementById('selectCity'); 
+    selectCityElement.innerHTML = '<option value="default">Veuilliez choisir une ville</option>'; 
 
     for(option of options){
         selectCityElement.appendChild(option); 
