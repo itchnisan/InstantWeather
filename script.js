@@ -28,6 +28,29 @@ async function fetchMeteoByCommune(cityCode) {
 }
 
 
+function display(tab){
+    //create each element 
+    let Tmin = document.createElement("p"); 
+    let Tmax = document.createElement("p");
+    let Prain = document.createElement("p");
+    let SunHours = document.createElement("p");
+    //give value to the different element 
+    Tmin.textContent = `température minimale : ${tab[1]}°C`;
+    Tmax.textContent = `température maximale : ${tab[0]}°C`;
+    Prain.textContent = `Probabilité de pluie : ${tab[3]}%`;
+    SunHours.textContent = `Ensoleillement journalier : ${displayHours(tab[2])}`;
+    //get the div for the different element
+    let weatherDiv= document.getElementById("divInfo");
+    //put element on the screen
+    weatherDiv.appendChild(weatherTmin);
+    weatherDiv.appendChild(weatherTmax);
+    weatherDiv.appendChild(weatherPrain);
+    weatherDiv.appendChild(weatherSunHours);
+}
+
+
+
+
 
 
 
