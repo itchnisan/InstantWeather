@@ -1,6 +1,7 @@
 
 //Getting the elements from the DOM
-let inputZipCodeElement = document.getElementById("inputZipCode"); 
+const inputZipCodeElement = document.getElementById("inputZipCode");
+const selectCityElement = document.getElementById("selectCity"); 
 
 
 
@@ -10,21 +11,36 @@ let inputZipCodeElement = document.getElementById("inputZipCode");
  */
  inputZipCodeElement.addEventListener('keydown', async (evt)=>{
 
+    //If the key pressed is enter
     if(evt.key == "Enter"){
+
         //Preventing the submission of the form
         evt.preventDefault(); 
 
-        //getting the array of ciites returned by the API request 
-        let citiesArray = await getCities(inputZipCodeElement.value); 
+        //Verifying that the number entered is really a zip Code
+        const zipCodeFormat = /^\d{5}$/; 
+        if(!(zipCodeFormat.test(inputZipCodeElement.value))){
+            alert('vous devez rentrer un code postale'); 
+        }
 
-        //Getting the array of options to add to the city select menu
-        let options = getCitiesAsOptions(citiesArray); 
+        else{
+            //getting the array of ciites returned by the API request 
+            let citiesArray = await getCities(inputZipCodeElement.value); 
 
-        //Adding the options to the select menu
-        putOptionsInMenu(options); 
+            //Getting the array of options to add to the city select menu
+            let options = getCitiesAsOptions(citiesArray); 
+
+            //Adding the options to the select menu
+            putOptionsInMenu(options); 
+        }
+
     }
     
  });
+
+
+
+
 
 
 
@@ -64,6 +80,7 @@ function getCitiesAsOptions(citiesArray){
 
     //If the number is less than 0, an error is returned 
     if(citiesNb <= 0){
+        window.alert("Veuillez entrer un code postale valide"); 
         console.error("You have to enter an array with at least one element for this fucntion"); 
         return -1; 
     }
@@ -107,7 +124,7 @@ function getCitiesAsOptions(citiesArray){
  */ 
 function putOptionsInMenu(options){
 
-    const selectCityElement = document.getElementById('selectCity'); 
+    selectCityElement.innerHTML = '<option value="default">Veuilliez choisir une ville</option>'; 
 
     for(option of options){
         selectCityElement.appendChild(option); 
