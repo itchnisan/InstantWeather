@@ -17,6 +17,51 @@ const selectCityElement = document.getElementById("selectCity");
         //Preventing the submission of the form
         evt.preventDefault(); 
 
+
+//function apiMeteoConcept
+
+async function fetchMeteoByCommune(cityCode) {
+    try {
+        const response = await fetch(
+            `https://api.meteo-concept.com/api/forecast/daily/0?token=02eb3bfd78846c99ce1cfbcf5da2535a16e462a19a8a464bcf1bad211f631ef9&insee=${cityCode}`
+        );
+        const data = await response.json();
+        
+        //create tab for data
+        let tab = new Array(4) ;
+        // Clear previous content
+        tab[0] = data.forecast.tmax;
+        tab[1] = data.forecast.tmin;
+        tab[2] = data.forecast.sun_hours;
+        tab[3] = data.city.probarain;
+
+    } catch (error) {
+        console.error("Error during the request to the API:", error);
+    }
+    return tab;
+}
+
+
+function display(tab){
+    //create each element 
+    let Tmin = document.createElement("p"); 
+    let Tmax = document.createElement("p");
+    let Prain = document.createElement("p");
+    let SunHours = document.createElement("p");
+    //give value to the different element 
+    Tmin.textContent = `température minimale : ${tab[1]}°C`;
+    Tmax.textContent = `température maximale : ${tab[0]}°C`;
+    Prain.textContent = `Probabilité de pluie : ${tab[3]}%`;
+    SunHours.textContent = `Ensoleillement journalier : ${displayHours(tab[2])}`;
+    //get the div for the different element
+    let weatherDiv= document.getElementById("divInfo");
+    //put element on the screen
+    weatherDiv.appendChild(weatherTmin);
+    weatherDiv.appendChild(weatherTmax);
+    weatherDiv.appendChild(weatherPrain);
+    weatherDiv.appendChild(weatherSunHours);
+}
+
         //Verifying that the number entered is really a zip Code
         const zipCodeFormat = /^\d{5}$/; 
         if(!(zipCodeFormat.test(inputZipCodeElement.value))){
@@ -26,6 +71,7 @@ const selectCityElement = document.getElementById("selectCity");
         else{
             //getting the array of ciites returned by the API request 
             let citiesArray = await getCities(inputZipCodeElement.value); 
+
 
             //Getting the array of options to add to the city select menu
             let options = getCitiesAsOptions(citiesArray); 
