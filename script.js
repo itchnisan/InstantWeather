@@ -2,12 +2,17 @@
 //Getting the elements from the DOM
 const inputZipCodeElement = document.getElementById("inputZipCode");
 const selectCityElement = document.getElementById("selectCity"); 
+const buttonValidateElement = document.getElementById('buttonValidate'); 
 
 
+
+//Hiding the validation button 
+hideValidationButton();  
 
 
 /*
  *adding a listener on the zipCode input field 
+ * This listener adds the cities in the select menu when entering a Zip Code
  */
  inputZipCodeElement.addEventListener('keydown', async (evt)=>{
 
@@ -38,6 +43,24 @@ const selectCityElement = document.getElementById("selectCity");
     }
     
  });
+
+ /*
+  *Adding a listener on the value of the select city menu
+  * This listener shows the validation button when a city is selected
+  */
+ selectCityElement.addEventListener('change', (evt)=>{
+
+    //if the selected option is not the default one
+    if(selectCityElement.value != 'default'){
+        //the validation button is showed
+        showValidationButon(); 
+    }
+
+    //if the selected option is the default one
+    else{
+        hideValidationButton(); 
+    }
+ }); 
 
 
 //function apiMeteoConcept
@@ -138,21 +161,17 @@ function getCitiesAsOptions(citiesArray){
 
     for(let cityNum = 0 ; citiesNb > cityNum ; cityNum++){
 
-        console.log("city num = "+cityNum+"\n");
-
         //Creating a new option
         option = document.createElement("option"); 
 
         //getting the current city 
-        city = citiesArray[cityNum]; 
-        console.log("city being created : "+city+"\n"); 
+        city = citiesArray[cityNum];  
 
         //Setting the attributes of the option
         option.value = city.code; 
         option.textContent = city.nom; 
 
         //Putting the option in the array
-        console.log(option+"\n"); 
         options[cityNum] = option; 
     }
 
@@ -162,14 +181,29 @@ function getCitiesAsOptions(citiesArray){
 
 
 /*
- *putting the options entered in param in the menu selectCity
+ *puts the options entered in param in the menu selectCity
  */ 
 function putOptionsInMenu(options){
 
-    selectCityElement.innerHTML = '<option value="default">Veuilliez choisir une ville</option>'; 
+    selectCityElement.innerHTML = ''; 
 
     for(option of options){
         selectCityElement.appendChild(option); 
     }
     
+}
+
+
+/*
+ *shows a validation button in the city select form
+ */
+function showValidationButon(){
+    buttonValidateElement.style.display = 'block'; 
+}
+
+/*
+ *hides the validation button in the city select form
+ */
+function hideValidationButton(){
+    buttonValidateElement.style.display = 'none';
 }
