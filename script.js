@@ -28,6 +28,7 @@ hideValidationButton();
             alert('vous devez rentrer un code postale'); 
         }
 
+        //if the entered number is a really a zip code
         else{
             //getting the array of ciites returned by the API request 
             let citiesArray = await getCities(inputZipCodeElement.value); 
@@ -38,29 +39,15 @@ hideValidationButton();
 
             //Adding the options to the select menu
             putOptionsInMenu(options); 
+
+            //Showing the validation button
+            showValidationButon();  
         }
 
     }
     
  });
 
- /*
-  *Adding a listener on the value of the select city menu
-  * This listener shows the validation button when a city is selected
-  */
- selectCityElement.addEventListener('change', (evt)=>{
-
-    //if the selected option is not the default one
-    if(selectCityElement.value != 'default'){
-        //the validation button is showed
-        showValidationButon(); 
-    }
-
-    //if the selected option is the default one
-    else{
-        hideValidationButton(); 
-    }
- }); 
 
 
 //function apiMeteoConcept
