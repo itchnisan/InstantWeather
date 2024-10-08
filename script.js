@@ -7,6 +7,11 @@ const pMax = document.getElementById('pMax');
 const pMin = document.getElementById('pMin');
 const pRain = document.getElementById('pPrain');
 const pSun = document.getElementById('pSun');
+const checklatitude = document.getElementById('checkBoxLatitude');
+const checklongitude = document.getElementById('checkBoxLongitude');
+const checkRainAccumulation = document.getElementById('checkBoxRainAccumulation');
+const checkWindSpeed = document.getElementById('checkBoxWindSpeed');
+const checkWindDirection = document.getElementById('checkBoxWindDirection');
 
 
 //Hiding the validation button 
@@ -14,7 +19,7 @@ hideValidationButton();
 
 buttonValidateElement.addEventListener('click',async ()=>{
         let zipCode = selectCityElement.value;
-        let tab = await fetchWeatherByCity(zipCode);
+        let tab = await fetchWeatherByCity(zipCode,0);
         weatherDisplay(tab);
 });
 
@@ -59,21 +64,37 @@ inputZipCodeElement.addEventListener('keydown', async (evt)=>{
 
 
 //function apiMeteoConcept
-async function fetchWeatherByCity(cityCode) {
+async function fetchWeatherByCity(cityCode,day) {
     //create tab for data
     let tab = new Array(4) ;
     try {
         const response = await fetch(
-            `https://api.meteo-concept.com/api/forecast/daily/0?token=02eb3bfd78846c99ce1cfbcf5da2535a16e462a19a8a464bcf1bad211f631ef9&insee=${cityCode}`
+            `https://api.meteo-concept.com/api/forecast/daily/${day}?token=02eb3bfd78846c99ce1cfbcf5da2535a16e462a19a8a464bcf1bad211f631ef9&insee=${cityCode}`
         );
         const data = await response.json();
         
+        console.log(data);
         
         // Clear previous content
         tab[0] = data.forecast.tmax;
         tab[1] = data.forecast.tmin;
         tab[2] = data.forecast.sun_hours;
         tab[3] = data.forecast.probarain;
+        if(checklatitude.checked == true){
+            tab[0] = data.forecast.latitude;
+        }
+        if(checklongitude.checked == true){
+            tab[0] = data.forecast.longitude;
+        }
+        if(checkRainAccumulation.checked == true){
+            tab[0] = data.forecast.rr10;
+        }
+        if(checkWindSpeed.checked == true){
+            tab[0] = data.forecast.tmax;
+        }
+        if(checkWindDirection.checked == true){
+            tab[0] = data.forecast.tmax;
+        }
 
         console.log(tab);
 
@@ -84,7 +105,8 @@ async function fetchWeatherByCity(cityCode) {
 }
 
 
-function weatherDisplay(tab){
+function weatherDisplay(tab,div){
+
     pMax.textContent = 'Min : ';
     pMin.textContent = 'Max : ';
     pRain.textContent = 'Probabilité de pluie : ';
