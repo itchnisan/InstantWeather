@@ -80,24 +80,24 @@ async function fetchWeatherByCity(cityCode,day) {
         tab[1] = data.forecast.tmin;
         tab[2] = data.forecast.sun_hours;
         tab[3] = data.forecast.probarain;
-        if(checklatitude.checked == true){
-            tab[4] = data.forecast.latitude;
+        if(localStorage.getItem('checklatitude') != null){
+            tab[5] = data.forecast.latitude;
         }
-        if(checklongitude.checked == true){
-            tab[5] = data.forecast.longitude;
+        if(localStorage.getItem('checklongitude') != null){
+            tab[6] = data.forecast.longitude;
         }
-        if(checkRainAccumulation.checked == true){
-            tab[6] = data.forecast.rr10;
+        if(localStorage.getItem('checkRainAccumulation') != null){
+            tab[7] = data.forecast.rr10;
         }
-        if(checkWindSpeed.checked == true){
-            tab[7] = data.forecast.wind10m;
+        if(localStorage.getItem('checkWindSpeed') != null){
+            tab[8] = data.forecast.wind10m;
         }
-        if(checkWindDirection.checked == true){
-            tab[8] = data.forecast.dirwind10m;
+        if(localStorage.getItem('checkWindDirection') != null){
+            tab[9] = data.forecast.dirwind10m;
         }
-        tab[9] = day;
-
-        console.log(tab);
+        let treatementDate = new String(data.forecast.datetime);
+        let date = treatementDate.split("T")[0];
+        tab[4] = date;
 
     } catch (error) {
         console.error("Error during the request to the API:", error);
@@ -107,7 +107,6 @@ async function fetchWeatherByCity(cityCode,day) {
 
 
 function weatherDisplay(tab,div){
-    
     pMax.textContent = 'Min : ';
     pMin.textContent = 'Max : ';
     pRain.textContent = 'Probabilité de pluie : ';
