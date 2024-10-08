@@ -195,6 +195,14 @@ async function fetchWeatherByCity(cityCode,day) {
     return tab;
 }
 
+/*
+ *adds a p element who's text content is the value entered in param to the options div
+*/
+function addToOptionsDiv(value){
+    let element = document.createElement('p'); 
+    element.textContent = value; 
+    divOptionsElement.appendChild(element); 
+}
 
 function weatherDisplay(tab,day){
     //reinitializing the informations 
@@ -217,41 +225,25 @@ function weatherDisplay(tab,day){
     //Verifiyng the options choosed by the user and displaying them
 
     if(localStorage.getItem('checklatitude') != null){
-        //Creating the right element and adding it to the div
-        let pLatitude = document.createElement('p'); 
-        pLatitude.textContent = 'latitude : '+tab[5]; 
-        divOptionsElement.appendChild(pLatitude); 
+        addToOptionsDiv("latitude : "+tab[5]); 
     }
 
 
     if(localStorage.getItem('checklongitude') != null){
-        //Creating the right element and adding it to the div
-        let pLongitude = document.createElement('p'); 
-        pLongitude.textContent = 'Longitude : '+tab[6]; 
-        divOptionsElement.appendChild(pLongitude); 
+        addToOptionsDiv("longitude : "+tab[6]); 
     }
 
     if(localStorage.getItem('checkRainAccumulation') != null){
-        //Creating the right element and adding it to the div
-        let pRainAccumulation = document.createElement('p'); 
-        pRainAccumulation.textContent = 'Accumulation pluie : '+tab[7]; 
-        divOptionsElement.appendChild(pRainAccumulation); 
+        addToOptionsDiv("accumulation pluie : "+tab[7]);
     }
 
     if(localStorage.getItem('checkWindSpeed') != null){
-        tab[8] = data.forecast.wind10m;
-    }
-    else{
-        tab[8] = null;
+        addToOptionsDiv("vitesse du vent : "+tab[8]);
     }
 
     if(localStorage.getItem('checkWindDirection') != null){
-        tab[9] = data.forecast.dirwind10m;
+        addToOptionsDiv("direction du vent : "+tab[9]);
     }
-    else{
-        tab[9] = null;
-    }
-
 
 }
 
