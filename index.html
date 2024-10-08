@@ -24,29 +24,44 @@
                 <option value="default">Veuilliez choisir une ville</option>
             </select>
         </div>
-        <button id="buttonValidate" type="button">valider</button>
+        <div id="buttons">
+            <button id="buttonValidate" type="button">Valider</button>
+            <button id="options" type="button">Options</button>
+        </div>
     </form>
 
-    <button id="options" type="button">Options</button>
-
     <form id="formOptions">
-        <label>Nombre de jours : </label>
-        <input id="numberDays" type="number"> 
+        <div class="divOptions">
+            <label>Nombre de jours : </label>
+            <input id="numberDays" type="number"> 
+        </div>
+        
+        <div class="divOptions">
+            <label>Voir la latitude </label>
+            <input id="checkBoxLatitude" type="checkbox">
+        </div>
 
-        <label>Voir la latitude </label>
-        <input id="checkBoxLatitude" type="checkbox">
+        <div class="divOptions">
+            <label>Voir la longitude </label>
+            <input id="checkBoxLongitude" type="checkbox">
+        </div>
+        
+        <div class="divOptions">
+            <label>Voir l'accumulation de la pluie </label>
+            <input id="checkBoxRainAccumulation" type="checkbox">
+        </div>
+        
+        <div class="divOptions">
+            <label>Voir la vitesse du vent </label>
+            <input id="checkBoxWindSpeed" type="checkbox">
+        </div>
+        
+        <div class="divOptions">
+            <label>Voir la direction du vent </label>
+            <input id="checkBoxWindDirection" type="checkbox">
+        </div>
+        
 
-        <label>Voir la longitude </label>
-        <input id="checkBoxLongitude" type="checkbox">
-
-        <label>Voir l'accumulation de la pluie </label>
-        <input id="checkBoxRainAccumulation" type="checkbox">
-
-        <label>Voir la vitesse du vent </label>
-        <input id="checkBoxWindSpeed" type="checkbox">
-
-        <label>Voir la direction du vent </label>
-        <input id="checkBoxWindDirection" type="checkbox">
     </form>
 
     <div id="divInfo">
