@@ -18,6 +18,7 @@ const checkWindSpeed = document.getElementById('checkBoxWindSpeed');
 const checkWindDirection = document.getElementById('checkBoxWindDirection');
 const numberDaysElement = document.getElementById('numberDays'); 
 
+
 //Hiding the validation button 
 hide(buttonValidateElement);  
 
@@ -78,7 +79,7 @@ buttonValidateOptionsElement.addEventListener('click', ()=>{
  *adding a listener on the options button 
  *this listener shows a window with the options form 
  */
- buttonOptionsElement.addEventListener('click', ()=>{
+buttonOptionsElement.addEventListener('click', ()=>{
 
 
     //getting the choices of the user 
@@ -107,7 +108,7 @@ buttonValidateOptionsElement.addEventListener('click', ()=>{
     //showing the options form
     divFormOptionsElement.style.display = "block";
 
- }); 
+}); 
 
 /*
  *adding a listener on the validation elemnt 
@@ -115,7 +116,7 @@ buttonValidateOptionsElement.addEventListener('click', ()=>{
  */ 
 buttonValidateElement.addEventListener('click',async ()=>{
         let zipCode = selectCityElement.value;
-        let tab = await fetchWeatherByCity(zipCode);
+        let tab = await fetchWeatherByCity(zipCode,0);
         weatherDisplay(tab);
 });
 
@@ -160,23 +161,40 @@ inputZipCodeElement.addEventListener('keydown', async (evt)=>{
 
 
 //function apiMeteoConcept
-async function fetchWeatherByCity(cityCode) {
+async function fetchWeatherByCity(cityCode,day) {
     //create tab for data
-    let tab = new Array(4) ;
+    let tab = new Array(10) ;
     try {
         const response = await fetch(
-            `https://api.meteo-concept.com/api/forecast/daily/0?token=02eb3bfd78846c99ce1cfbcf5da2535a16e462a19a8a464bcf1bad211f631ef9&insee=${cityCode}`
+            `https://api.meteo-concept.com/api/forecast/daily/${day}?token=02eb3bfd78846c99ce1cfbcf5da2535a16e462a19a8a464bcf1bad211f631ef9&insee=${cityCode}`
         );
         const data = await response.json();
         
+        console.log(data);
         
         // Clear previous content
         tab[0] = data.forecast.tmax;
         tab[1] = data.forecast.tmin;
         tab[2] = data.forecast.sun_hours;
         tab[3] = data.forecast.probarain;
-
-        console.log(tab);
+        if(localStorage.getItem('checklatitude') != null){
+            tab[5] = data.forecast.latitude;
+        }
+        if(localStorage.getItem('checklongitude') != null){
+            tab[6] = data.forecast.longitude;
+        }
+        if(localStorage.getItem('checkRainAccumulation') != null){
+            tab[7] = data.forecast.rr10;
+        }
+        if(localStorage.getItem('checkWindSpeed') != null){
+            tab[8] = data.forecast.wind10m;
+        }
+        if(localStorage.getItem('checkWindDirection') != null){
+            tab[9] = data.forecast.dirwind10m;
+        }
+        let treatementDate = new String(data.forecast.datetime);
+        let date = treatementDate.split("T")[0];
+        tab[4] = date;
 
     } catch (error) {
         console.error("Error during the request to the API:", error);
@@ -185,7 +203,8 @@ async function fetchWeatherByCity(cityCode) {
 }
 
 
-function weatherDisplay(tab){
+function weatherDisplay(tab,/*div*/){
+    
     pMax.textContent = 'Min : ';
     pMin.textContent = 'Max : ';
     pRain.textContent = 'Probabilité de pluie : ';
