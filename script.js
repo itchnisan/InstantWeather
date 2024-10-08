@@ -66,7 +66,7 @@ inputZipCodeElement.addEventListener('keydown', async (evt)=>{
 //function apiMeteoConcept
 async function fetchWeatherByCity(cityCode,day) {
     //create tab for data
-    let tab = new Array(4) ;
+    let tab = new Array(10) ;
     try {
         const response = await fetch(
             `https://api.meteo-concept.com/api/forecast/daily/${day}?token=02eb3bfd78846c99ce1cfbcf5da2535a16e462a19a8a464bcf1bad211f631ef9&insee=${cityCode}`
@@ -81,20 +81,21 @@ async function fetchWeatherByCity(cityCode,day) {
         tab[2] = data.forecast.sun_hours;
         tab[3] = data.forecast.probarain;
         if(checklatitude.checked == true){
-            tab[0] = data.forecast.latitude;
+            tab[4] = data.forecast.latitude;
         }
         if(checklongitude.checked == true){
-            tab[0] = data.forecast.longitude;
+            tab[5] = data.forecast.longitude;
         }
         if(checkRainAccumulation.checked == true){
-            tab[0] = data.forecast.rr10;
+            tab[6] = data.forecast.rr10;
         }
         if(checkWindSpeed.checked == true){
-            tab[0] = data.forecast.tmax;
+            tab[7] = data.forecast.wind10m;
         }
         if(checkWindDirection.checked == true){
-            tab[0] = data.forecast.tmax;
+            tab[8] = data.forecast.dirwind10m;
         }
+        tab[9] = day;
 
         console.log(tab);
 
@@ -106,7 +107,7 @@ async function fetchWeatherByCity(cityCode,day) {
 
 
 function weatherDisplay(tab,div){
-
+    
     pMax.textContent = 'Min : ';
     pMin.textContent = 'Max : ';
     pRain.textContent = 'Probabilité de pluie : ';
