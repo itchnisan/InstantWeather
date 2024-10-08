@@ -22,6 +22,10 @@ const numberDaysElement = document.getElementById('numberDays');
 //Hiding the validation button 
 hide(buttonValidateElement);  
 
+
+//putting the number of days to 1 by default 
+localStorage.setItem('numberDaysElement', 1); 
+
 /*
  *adding a listener on the validateOptions button 
  *this listener close the form options when clicked
@@ -30,40 +34,40 @@ hide(buttonValidateElement);
 buttonValidateOptionsElement.addEventListener('click', ()=>{
 
 
-    //stocking the choices of the user 
+    //storing the choices of the user 
     if(checklatitude.checked){
         localStorage.setItem('checklatitude', true); 
     }
     else{
-        localStorage.setItem('checklatitude', null);
+        localStorage.removeItem('checklatitude'); 
     }
 
     if(checklongitude.checked){
         localStorage.setItem('checklongitude', true); 
     }
     else{
-        localStorage.setItem('checklongitude', null);
+        localStorage.removeItem('checklongitude'); 
     }
 
     if(checkRainAccumulation.checked){
         localStorage.setItem('checkRainAccumulation', true); 
     }
     else{
-        localStorage.setItem('checkRainAccumulation', null);
+        localStorage.removeItem('checkRainAccumulation'); 
     }
 
     if(checkWindSpeed.checked){
         localStorage.setItem('checkWindSpeed', true); 
     }
     else{
-        localStorage.setItem('checkWindSpeed', null);
+        localStorage.removeItem('checkWindSpeed'); 
     }
 
     if(checkWindDirection.checked){
         localStorage.setItem('checkWindDirection', true); 
     }
     else{
-        localStorage.setItem('checkWindDirection', null);
+        localStorage.removeItem('checkWindDirection'); 
     }
 
     //getting the number of days 
@@ -115,9 +119,20 @@ buttonOptionsElement.addEventListener('click', ()=>{
  *This listener shows the weather informations when the validation button is clicked
  */ 
 buttonValidateElement.addEventListener('click',async ()=>{
-        let zipCode = selectCityElement.value;
-        let tab = await fetchWeatherByCity(zipCode,0);
-        weatherDisplay(tab);
+
+        let tab; 
+
+        //getting the code of the city 
+        let code = selectCityElement.value;
+
+        //Getting the num of days stored in the browser 
+        let numOfDays = localStorage.getItem('numberDaysElement'); 
+
+        //Getting and showing the weather informations of each daay
+        for(let dayNum = 0 ; numOfDays > dayNum ; dayNum++){
+            tab = await fetchWeatherByCity(code,dayNum);
+        }
+        
 });
 
 /*
