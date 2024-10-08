@@ -106,7 +106,8 @@ async function fetchWeatherByCity(cityCode,day) {
 }
 
 
-function weatherDisplay(tab,div){
+function weatherDisplay(tab,/*div*/){
+    
     pMax.textContent = 'Min : ';
     pMin.textContent = 'Max : ';
     pRain.textContent = 'Probabilité de pluie : ';
