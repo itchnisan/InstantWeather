@@ -16,7 +16,6 @@ const checklongitude = document.getElementById('checkBoxLongitude');
 const checkRainAccumulation = document.getElementById('checkBoxRainAccumulation');
 const checkWindSpeed = document.getElementById('checkBoxWindSpeed');
 const checkWindDirection = document.getElementById('checkBoxWindDirection');
-
 const numberDaysElement = document.getElementById('numberDays'); 
 
 
