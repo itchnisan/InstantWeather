@@ -7,10 +7,12 @@ const buttonOptionsElement = document.getElementById('options');
 const buttonValidateOptionsElement = document.getElementById('buttonValidateOptions'); 
 const formOptionsElement = document.getElementById('formOptions'); 
 const divFormOptionsElement =  document.getElementById('divFormOptions'); 
+const divOptionsElement = document.getElementById('divOption'); 
 const pMax = document.getElementById('pMax');
 const pMin = document.getElementById('pMin');
 const pRain = document.getElementById('pPrain');
 const pSun = document.getElementById('pSun');
+const pDate = document.getElementById('pDate');
 const checklatitude = document.getElementById('checkBoxLatitude');
 const checklongitude = document.getElementById('checkBoxLongitude');
 const checkRainAccumulation = document.getElementById('checkBoxRainAccumulation');
@@ -187,26 +189,17 @@ async function fetchWeatherByCity(cityCode,day) {
         
         console.log(data);
         
-        // Clear previous content
+        // storing the informations in the tab
         tab[0] = data.forecast.tmax;
         tab[1] = data.forecast.tmin;
         tab[2] = data.forecast.sun_hours;
         tab[3] = data.forecast.probarain;
-        if(localStorage.getItem('checklatitude') != null){
-            tab[5] = data.forecast.latitude;
-        }
-        if(localStorage.getItem('checklongitude') != null){
-            tab[6] = data.forecast.longitude;
-        }
-        if(localStorage.getItem('checkRainAccumulation') != null){
-            tab[7] = data.forecast.rr10;
-        }
-        if(localStorage.getItem('checkWindSpeed') != null){
-            tab[8] = data.forecast.wind10m;
-        }
-        if(localStorage.getItem('checkWindDirection') != null){
-            tab[9] = data.forecast.dirwind10m;
-        }
+        tab[5] = data.forecast.latitude;
+        tab[6] = data.forecast.longitude;
+        tab[7] = data.forecast.rr10;
+        tab[8] = data.forecast.wind10m;
+        tab[9] = data.forecast.dirwind10m;
+
         let treatementDate = new String(data.forecast.datetime);
         let date = treatementDate.split("T")[0];
         tab[4] = date;
@@ -217,18 +210,56 @@ async function fetchWeatherByCity(cityCode,day) {
     return tab;
 }
 
+/*
+ *adds a p element who's text content is the value entered in param to the options div
+*/
+function addToOptionsDiv(value){
+    let element = document.createElement('p'); 
+    element.textContent = value; 
+    divOptionsElement.appendChild(element); 
+}
 
-function weatherDisplay(tab,/*div*/){
-    
+function weatherDisplay(tab,day){
+    //reinitializing the informations 
+    pDate.textContent = 'date : '; 
     pMax.textContent = 'Min : ';
     pMin.textContent = 'Max : ';
     pRain.textContent = 'Probabilité de pluie : ';
     pSun.textContent = 'Ensoleillement journaliers : ';
+
+    //Clearing the options div
+    divOptionsElement.innerHTML = ''; 
+
     //put element on the screen
+    pDate.textContent += `${tab[4]}`
     pMax.textContent += `${tab[0]}°C`;
     pMin.textContent += `${tab[1]}°C`;
     pRain.textContent += `${tab[3]}%`;
     pSun.textContent += `${tab[2]}`;
+
+    //Verifiyng the options choosed by the user and displaying them
+
+    if(localStorage.getItem('checklatitude') != null){
+        addToOptionsDiv("latitude : "+tab[5]); 
+    }
+
+
+    if(localStorage.getItem('checklongitude') != null){
+        addToOptionsDiv("longitude : "+tab[6]); 
+    }
+
+    if(localStorage.getItem('checkRainAccumulation') != null){
+        addToOptionsDiv("accumulation pluie : "+tab[7]);
+    }
+
+    if(localStorage.getItem('checkWindSpeed') != null){
+        addToOptionsDiv("vitesse du vent : "+tab[8]);
+    }
+
+    if(localStorage.getItem('checkWindDirection') != null){
+        addToOptionsDiv("direction du vent : "+tab[9]);
+    }
+
 }
 
 
