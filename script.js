@@ -3,6 +3,8 @@
 const inputZipCodeElement = document.getElementById("inputZipCode");
 const selectCityElement = document.getElementById("selectCity"); 
 const buttonValidateElement = document.getElementById('buttonValidate'); 
+const buttonOptionsElement = document.getElementById('options'); 
+const formOptionsElement = document.getElementById('formOptions'); 
 const pMax = document.getElementById('pMax');
 const pMin = document.getElementById('pMin');
 const pRain = document.getElementById('pPrain');
@@ -10,8 +12,21 @@ const pSun = document.getElementById('pSun');
 
 
 //Hiding the validation button 
-hideValidationButton();  
+hide(buttonValidateElement);  
 
+//Hiding the options form 
+hide(formOptionsElement); 
+
+/*
+ *adding a listener on the options button 
+ *this listener shows a window with the options form 
+ */
+
+
+/*
+ *adding a listener on the validation elemnt 
+ *This listener shows the weather informations when the validation button is clicked
+ */ 
 buttonValidateElement.addEventListener('click',async ()=>{
         let zipCode = selectCityElement.value;
         let tab = await fetchWeatherByCity(zipCode);
@@ -49,7 +64,7 @@ inputZipCodeElement.addEventListener('keydown', async (evt)=>{
             putOptionsInMenu(options); 
 
             //Showing the validation button
-            showValidationButon();  
+            show(buttonValidateElement);  
         }
 
     }
@@ -184,15 +199,15 @@ function putOptionsInMenu(options){
 
 
 /*
- *shows a validation button in the city select form
+ *shows the elemnt entered in param
  */
-function showValidationButon(){
-    buttonValidateElement.style.display = 'block'; 
+function show(element){
+    element.style.display = 'block'; 
 }
 
 /*
- *hides the validation button in the city select form
+ *hides the elemnt entered in param
  */
-function hideValidationButton(){
-    buttonValidateElement.style.display = 'none';
+function hide(element){
+    element.style.display = 'none';
 }
