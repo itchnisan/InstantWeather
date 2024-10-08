@@ -5,6 +5,8 @@ const selectCityElement = document.getElementById("selectCity");
 const buttonValidateElement = document.getElementById('buttonValidate'); 
 const buttonOptionsElement = document.getElementById('options'); 
 const buttonValidateOptionsElement = document.getElementById('buttonValidateOptions'); 
+const buttonNextDayElement = document.getElementById('buttonNextDay'); 
+const buttonPreviousDayElement = document.getElementById('buttonPreviousDay'); 
 const formOptionsElement = document.getElementById('formOptions'); 
 const divFormOptionsElement =  document.getElementById('divFormOptions'); 
 const divOptionsElement = document.getElementById('divOption'); 
@@ -24,17 +26,31 @@ const numberDaysElement = document.getElementById('numberDays');
 //Hiding the validation button 
 hide(buttonValidateElement);  
 
+//Hiding the nextDay button
+hide(buttonNextDayElement);
+
+//Hiding the previousDay button
+hide(buttonPreviousDayElement); 
+
+//necessary variables 
+let dayNum; 
+let code; 
+
 
 //putting the number of days to 1 by default 
-localStorage.setItem('numberDaysElement', 1); 
+if(localStorage.getItem('numberDaysElement') == null){
+    localStorage.setItem('numberDaysElement', 1); 
+}
+
 
 /*
  *adding a listener on the validateOptions button 
  *this listener close the form options when clicked
  *it stores the choices of the user in the local storage  
 */
-buttonValidateOptionsElement.addEventListener('click', ()=>{
+formOptionsElement.addEventListener('submit', (evt)=>{
 
+    evt.preventDefault(); 
 
     //storing the choices of the user 
     if(checklatitude.checked){
@@ -77,6 +93,8 @@ buttonValidateOptionsElement.addEventListener('click', ()=>{
 
     //hiding the options form
     divFormOptionsElement.style.display = "none";
+
+    location.reload(); 
     
 }); 
 
@@ -117,23 +135,66 @@ buttonOptionsElement.addEventListener('click', ()=>{
 }); 
 
 /*
+ *adding a listener to the next day button
+ *this listener increment dayNum and then dispaly the informations of this day
+ */
+ buttonNextDayElement.addEventListener('click', async ()=>{
+
+    //Verifying that it's not already on the last day
+    if(dayNum < localStorage.getItem('numberDaysElement')-1){
+        dayNum++; 
+    }
+ 
+
+    //Showing the informations of this day
+    tab = await fetchWeatherByCity(code,dayNum);
+    weatherDisplay(tab);
+ }); 
+
+
+ /*
+ *adding a listener to the next day button
+ *this listener increment dayNum and then dispaly the informations of this day
+ */
+ buttonPreviousDayElement.addEventListener('click', async ()=>{
+
+    //Verifying that it's not the first day
+    if(dayNum > 0){
+        dayNum--; 
+    }
+
+    //Showing the information of this day
+    tab = await fetchWeatherByCity(code,dayNum);
+    weatherDisplay(tab);
+ });
+
+/*
  *adding a listener on the validation elemnt 
  *This listener shows the weather informations when the validation button is clicked
  */ 
 buttonValidateElement.addEventListener('click',async ()=>{
 
         let tab; 
+        dayNum = 0; 
 
         //getting the code of the city 
-        let code = selectCityElement.value;
+        code = selectCityElement.value;
 
         //Getting the num of days stored in the browser 
         let numOfDays = localStorage.getItem('numberDaysElement'); 
 
-        //Getting and showing the weather informations of each daay
-        for(let dayNum = 0 ; numOfDays > dayNum ; dayNum++){
-            tab = await fetchWeatherByCity(code,dayNum);
+        //getting the weather information and displaying it
+        tab = await fetchWeatherByCity(code,dayNum);
+        weatherDisplay(tab);
+        
+        //If there is more than one day to dispaly
+        if(numOfDays > 1){
+            //showing the day selector 
+            show(buttonPreviousDayElement); 
+            show(buttonNextDayElement); 
         }
+
+
         
 });
 
@@ -187,7 +248,7 @@ async function fetchWeatherByCity(cityCode,day) {
         );
         const data = await response.json();
         
-        console.log(data);
+        //console.log(data);
         
         // storing the informations in the tab
         tab[0] = data.forecast.tmax;
@@ -219,7 +280,7 @@ function addToOptionsDiv(value){
     divOptionsElement.appendChild(element); 
 }
 
-function weatherDisplay(tab,day){
+function weatherDisplay(tab){
     //reinitializing the informations 
     pDate.textContent = 'date : '; 
     pMax.textContent = 'Min : ';
