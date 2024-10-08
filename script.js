@@ -3,6 +3,10 @@
 const inputZipCodeElement = document.getElementById("inputZipCode");
 const selectCityElement = document.getElementById("selectCity"); 
 const buttonValidateElement = document.getElementById('buttonValidate'); 
+const buttonOptionsElement = document.getElementById('options'); 
+const buttonValidateOptionsElement = document.getElementById('buttonValidateOptions'); 
+const formOptionsElement = document.getElementById('formOptions'); 
+const divFormOptionsElement =  document.getElementById('divFormOptions'); 
 const pMax = document.getElementById('pMax');
 const pMin = document.getElementById('pMin');
 const pRain = document.getElementById('pPrain');
@@ -13,10 +17,104 @@ const checkRainAccumulation = document.getElementById('checkBoxRainAccumulation'
 const checkWindSpeed = document.getElementById('checkBoxWindSpeed');
 const checkWindDirection = document.getElementById('checkBoxWindDirection');
 
+const numberDaysElement = document.getElementById('numberDays'); 
+
 
 //Hiding the validation button 
-hideValidationButton();  
+hide(buttonValidateElement);  
 
+/*
+ *adding a listener on the validateOptions button 
+ *this listener close the form options when clicked
+ *it stores the choices of the user in the local storage  
+*/
+buttonValidateOptionsElement.addEventListener('click', ()=>{
+
+
+    //stocking the choices of the user 
+    if(checklatitude.checked){
+        localStorage.setItem('checklatitude', true); 
+    }
+    else{
+        localStorage.setItem('checklatitude', null);
+    }
+
+    if(checklongitude.checked){
+        localStorage.setItem('checklongitude', true); 
+    }
+    else{
+        localStorage.setItem('checklongitude', null);
+    }
+
+    if(checkRainAccumulation.checked){
+        localStorage.setItem('checkRainAccumulation', true); 
+    }
+    else{
+        localStorage.setItem('checkRainAccumulation', null);
+    }
+
+    if(checkWindSpeed.checked){
+        localStorage.setItem('checkWindSpeed', true); 
+    }
+    else{
+        localStorage.setItem('checkWindSpeed', null);
+    }
+
+    if(checkWindDirection.checked){
+        localStorage.setItem('checkWindDirection', true); 
+    }
+    else{
+        localStorage.setItem('checkWindDirection', null);
+    }
+
+    //getting the number of days 
+    localStorage.setItem('numberDaysElement', numberDaysElement.value); 
+
+    //hiding the options form
+    divFormOptionsElement.style.display = "none";
+    
+}); 
+
+
+/*
+ *adding a listener on the options button 
+ *this listener shows a window with the options form 
+ */
+buttonOptionsElement.addEventListener('click', ()=>{
+
+
+    //getting the choices of the user 
+    numberDaysElement.value = localStorage.getItem('numberDaysElement'); 
+
+    if(localStorage.getItem('checklatitude') == 'true'){
+        checklatitude.checked = true; 
+    }
+
+    if(localStorage.getItem('checklongitude') == 'true'){
+        checklongitude.checked = true; 
+    }
+
+    if(localStorage.getItem('checkRainAccumulation') == 'true'){
+        checkRainAccumulation.checked = true; 
+    }
+
+    if(localStorage.getItem('checkWindSpeed') == 'true'){
+        checkWindSpeed.checked = true; 
+    }
+
+    if(localStorage.getItem('checkWindDirection') == 'true'){
+        checkWindDirection.checked = true; 
+    }
+
+    //showing the options form
+    divFormOptionsElement.style.display = "block";
+
+}); 
+
+/*
+ *adding a listener on the validation elemnt 
+ *This listener shows the weather informations when the validation button is clicked
+ */ 
 buttonValidateElement.addEventListener('click',async ()=>{
         let zipCode = selectCityElement.value;
         let tab = await fetchWeatherByCity(zipCode,0);
@@ -54,7 +152,7 @@ inputZipCodeElement.addEventListener('keydown', async (evt)=>{
             putOptionsInMenu(options); 
 
             //Showing the validation button
-            showValidationButon();  
+            show(buttonValidateElement);  
         }
 
     }
@@ -207,15 +305,15 @@ function putOptionsInMenu(options){
 
 
 /*
- *shows a validation button in the city select form
+ *shows the elemnt entered in param
  */
-function showValidationButon(){
-    buttonValidateElement.style.display = 'block'; 
+function show(element){
+    element.style.display = 'block'; 
 }
 
 /*
- *hides the validation button in the city select form
+ *hides the elemnt entered in param
  */
-function hideValidationButton(){
-    buttonValidateElement.style.display = 'none';
+function hide(element){
+    element.style.display = 'none';
 }
