@@ -320,24 +320,24 @@ function weatherDisplay(tab){
     //Verifiyng the options choosed by the user and displaying them
 
     if(localStorage.getItem('checklatitude') != null){
-        addToOptionsDiv("latitude : "+tab[5]); 
+        addToOptionsDiv("latitude : "+tab[5].toFixed(2)); 
     }
 
 
     if(localStorage.getItem('checklongitude') != null){
-        addToOptionsDiv("longitude : "+tab[6]); 
+        addToOptionsDiv("longitude : "+tab[6].toFixed(2)); 
     }
 
     if(localStorage.getItem('checkRainAccumulation') != null){
-        addToOptionsDiv("accumulation pluie : "+tab[7]);
+        addToOptionsDiv("accumulation pluie : "+tab[7].toFixed(2));
     }
 
     if(localStorage.getItem('checkWindSpeed') != null){
-        addToOptionsDiv("vitesse du vent : "+tab[8]);
+        addToOptionsDiv("vitesse du vent : "+tab[8].toFixed(2));
     }
 
     if(localStorage.getItem('checkWindDirection') != null){
-        addToOptionsDiv("direction du vent : "+tab[9]);
+        addToOptionsDiv("direction du vent : "+tab[9].toFixed(2));
     }
 
 }
