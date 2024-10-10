@@ -33,7 +33,9 @@ hide(buttonNextDayElement);
 hide(buttonPreviousDayElement); 
 
 //necessary variables 
+//The number of the day being displayed 
 let dayNum; 
+//The inseeCode of the city being displayed 
 let code; 
 
 
@@ -45,8 +47,9 @@ if(localStorage.getItem('numberDaysElement') == null){
 
 /*
  *adding a listener on the validateOptions button 
- *this listener close the form options when clicked
- *it stores the choices of the user in the local storage  
+ *this listener close the options form when the button is clicked
+ *it stores the choices of the user in the local storage
+ *it reloads the page   
 */
 formOptionsElement.addEventListener('submit', (evt)=>{
 
@@ -136,37 +139,54 @@ buttonOptionsElement.addEventListener('click', ()=>{
 
 /*
  *adding a listener to the next day button
- *this listener increment dayNum and then dispaly the informations of this day
+ *this listener increments dayNum and then dispaly the informations of this day
+ *If the day displayed is the last day asked by the user, the button disappears  
+ *If the day displayed is the 2nd day, the previous day button appears
  */
- buttonNextDayElement.addEventListener('click', async ()=>{
+buttonNextDayElement.addEventListener('click', async ()=>{
 
-    //Verifying that it's not already on the last day
-    if(dayNum < localStorage.getItem('numberDaysElement')-1){
-        dayNum++; 
+    dayNum++;
+
+    //Hiding the button if it's the last day
+    if(dayNum == localStorage.getItem('numberDaysElement')-1){
+        hide(buttonNextDayElement); 
     }
- 
+
+    //Showing the previousDay button if it's the 2nd day
+    if(dayNum == 1){
+        show(buttonPreviousDayElement); 
+    }
 
     //Showing the informations of this day
     tab = await fetchWeatherByCity(code,dayNum);
     weatherDisplay(tab);
- }); 
+}); 
 
 
- /*
- *adding a listener to the next day button
- *this listener increment dayNum and then dispaly the informations of this day
+/*
+ *adding a listener to the previous day button
+ *this listener decrements dayNum and then dispaly the informations of this day
+ *If the day displayed is the first day, the button disappears 
+ *If the day displayed is the not the last day, the next day button appears 
  */
- buttonPreviousDayElement.addEventListener('click', async ()=>{
+buttonPreviousDayElement.addEventListener('click', async ()=>{
 
-    //Verifying that it's not the first day
-    if(dayNum > 0){
-        dayNum--; 
+    dayNum--; 
+
+    //Hiding the button if it's the first day
+    if(dayNum == 0){
+        hide(buttonPreviousDayElement); 
+    }
+
+    //Showing the NextDay button if it's not the last day
+    if(dayNum == localStorage.getItem('numberDaysElement')-2){
+        show(buttonNextDayElement); 
     }
 
     //Showing the information of this day
     tab = await fetchWeatherByCity(code,dayNum);
     weatherDisplay(tab);
- });
+});
 
 /*
  *adding a listener on the validation elemnt 
@@ -189,8 +209,7 @@ buttonValidateElement.addEventListener('click',async ()=>{
         
         //If there is more than one day to dispaly
         if(numOfDays > 1){
-            //showing the day selector 
-            show(buttonPreviousDayElement); 
+            //showing the next day button 
             show(buttonNextDayElement); 
         }
 
