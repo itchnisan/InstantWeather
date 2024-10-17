@@ -301,21 +301,21 @@ function addToOptionsDiv(value){
 
 function weatherDisplay(tab){
     //reinitializing the informations 
-    pDate.textContent = 'date : '; 
-    pMax.textContent = 'Min : ';
-    pMin.textContent = 'Max : ';
-    pRain.textContent = 'Probabilité de pluie : ';
-    pSun.textContent = 'Ensoleillement journaliers : ';
+    pDate.innerHTML = '<i class="fa-solid fa-calendar-days"></i> '; 
+    pMax.textContent = 'Max : ';
+    pMin.textContent = 'Min : ';
+    pRain.innerHTML = '<i class="fa-solid fa-droplet"></i> ';
+    pSun.innerHTML = '<i class="fa-solid fa-sun"></i> ';
 
     //Clearing the options div
     divOptionsElement.innerHTML = ''; 
 
     //put element on the screen
-    pDate.textContent += `${tab[4]}`
+    pDate.innerHTML += `${tab[4]}`
     pMax.textContent += `${tab[0]}°C`;
     pMin.textContent += `${tab[1]}°C`;
-    pRain.textContent += `${tab[3]}%`;
-    pSun.textContent += `${tab[2]}`;
+    pRain.innerHTML += `${tab[3]}%`;
+    pSun.innerHTML += `${tab[2]}`;
 
     //Verifiyng the options choosed by the user and displaying them
 

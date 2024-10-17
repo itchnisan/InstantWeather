@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InstantWeather</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/fd882fb6a5.js" crossorigin="anonymous"></script>
     <script defer src="script.js"></script>
 </head>
 <body>
@@ -69,13 +70,14 @@
 
     <button id="buttonPreviousDay" type="button">jour prècèdent</button>
     <div id="divInfo">
-        <p id="pDate"></p>
-        <p id="pMin"></p>
-        <p id="pMax"></p>
-        <p id="pPrain"></p>
-        <p id="pSun"></p>
-        <div id="divOption">
+        <div id="divTopRow">
+            <span id="pDate"></span>
+            <span id="pPrain"></span>
+            <span id="pSun"></span>
+            <span id="pMax"></span>
+            <span id="pMin"></span>
         </div>
+        <div id="divOption"></div>
     </div>
     <button id="buttonNextDay" type="button">jour suivant</button>
 
