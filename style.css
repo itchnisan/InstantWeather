@@ -165,7 +165,7 @@ footer {
     border-radius: 8px;
     padding: 10px 15px;
     background-color: white;
-    color: 2b99eb;
+   
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -177,7 +177,6 @@ footer {
 
 #video{
     position: absolute;
-    top: 40;
     height: 100%;
     z-index: -100;
 }

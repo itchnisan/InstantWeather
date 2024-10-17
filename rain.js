@@ -77,4 +77,4 @@ const canvas = document.getElementById("rain");
         }
     
 
-    animate();
+   
