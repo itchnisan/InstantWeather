@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #5ac8fa;
+    background-color: #449de6;
     color: white;
     display: flex;
     flex-direction: column;
@@ -26,13 +26,13 @@ body {
 }
 
 #divHeader h1 {
-    color: #2b99eb;
+    color: #449de6;
     font-size: 36px;
     font-weight: bold;
 }
 
 #form {
-    background-color: #ffffff88;
+    background-color: #ffffff56;
     border-radius: 15px;
     padding: 20px;
     width: 80%;
@@ -69,23 +69,56 @@ body {
 }
 
 #inputZipCode, #selectCity, #numberDays {
-    border-radius: 5px;
-    padding: 5px;
-    width: 14em;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    max-width: 320px;
     border: 1px solid #ccc;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+#inputZipCode:focus, #selectCity:focus, #numberDays:focus {
+    border-color: #2b99eb;
+    outline: none;
 }
 
 #divInfo {
-    background-color: #ffffff88;
+    background-color: #ffffff56;
     border-radius: 15px;
     padding: 20px;
     width: 80%;
-    text-align: center;
+    text-align: left;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #divInfo p {
     font-size: 18px;
     margin: 10px 0;
+}
+
+#divTopRow {
+    display: flex;
+    justify-content: space-between; /* Espacement entre les éléments */
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#pDate {
+    font-weight: bold;
+    margin-right: auto;
+    font-size: 18px;
+}
+
+/* Alignement et espacement des autres éléments sur la même ligne */
+#pPrain, #pSun, #pMax, #pMin {
+    font-size: 16px;
+    margin-left: 20px; /* Espacement entre chaque élément */
+}
+
+/* Conteneur des options en dessous */
+#divOption {
+    margin-top: 20px;
 }
 
 footer {
@@ -96,15 +129,19 @@ footer {
 }
 
 #buttonValidate, #options{
-    border-radius: 5px;
-    padding: 5px;
+    border-radius: 8px;
+    padding: 10px;
     width: 6em;
-    border: 1px solid #ccc;
-    margin: 10px;
+    border: none;
+    background-color: #2b99eb;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 4px;
 }
 
 #buttonValidate:hover, #options:hover{
-    background-color: #ccc;
+    background-color: #1c86ee;
 }
 
 #buttons{
@@ -122,4 +159,18 @@ footer {
     overflow: auto; 
     background-color: rgb(71, 185, 230); 
 
+}
+
+#buttonPreviousDay, #buttonNextDay {
+    border-radius: 8px;
+    padding: 10px 15px;
+    background-color: white;
+    color: 2b99eb;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#buttonPreviousDay:hover, #buttonNextDay:hover {
+    background-color: #1c86ee;
 }
