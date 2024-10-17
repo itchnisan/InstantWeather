@@ -238,7 +238,7 @@ function weatherDisplay(tab,day){
         divOptionsElement.appendChild(pRainAccumulation); 
     }
 
-    if(localStorage.getItem('checkWindSpeed') != null){
+    if(localStorage.getItem('checkWindSpeed') != null){ 
         tab[8] = data.forecast.wind10m;
     }
     else{
