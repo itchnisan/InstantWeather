@@ -6,7 +6,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #449de6;
+    background-color: #2D6ABA;
     color: white;
     display: flex;
     flex-direction: column;
@@ -174,4 +174,11 @@ footer {
 
 #buttonPreviousDay:hover, #buttonNextDay:hover {
     background-color: #1c86ee;
+}
+
+#video{
+    position: absolute;
+    top: 40;
+    height: 100%;
+    z-index: -100;
 }

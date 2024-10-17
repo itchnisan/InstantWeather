@@ -22,6 +22,8 @@ const checkRainAccumulation = document.getElementById('checkBoxRainAccumulation'
 const checkWindSpeed = document.getElementById('checkBoxWindSpeed');
 const checkWindDirection = document.getElementById('checkBoxWindDirection');
 const numberDaysElement = document.getElementById('numberDays'); 
+const video = document.getElementById('video'); 
+
 
 
 //Hiding the validation button 
@@ -261,7 +263,7 @@ inputZipCodeElement.addEventListener('keydown', async (evt)=>{
 //function apiMeteoConcept
 async function fetchWeatherByCity(cityCode,day) {
     //create tab for data
-    let tab = new Array(10) ;
+    let tab = new Array(11) ;
     try {
         const response = await fetch(
             `https://api.meteo-concept.com/api/forecast/daily/${day}?token=02eb3bfd78846c99ce1cfbcf5da2535a16e462a19a8a464bcf1bad211f631ef9&insee=${cityCode}`
@@ -280,6 +282,7 @@ async function fetchWeatherByCity(cityCode,day) {
         tab[7] = data.forecast.rr10;
         tab[8] = data.forecast.wind10m;
         tab[9] = data.forecast.dirwind10m;
+        tab[10] = data.forecast.weather;
 
         let treatementDate = new String(data.forecast.datetime);
         let date = treatementDate.split("T")[0];
@@ -354,6 +357,7 @@ function weatherDisplay(tab){
     if(localStorage.getItem('checkWindDirection') != null){
         addToOptionsDiv('<i class="fa-solid fa-compass"></i> '+tab[9].toFixed(2));
     }
+    setBackground();
 
 }
 
@@ -456,5 +460,30 @@ function show(element){
  */
 function hide(element){
     element.style.display = 'none';
+}
 
+async function setBackground() {
+    let tab = await fetchWeatherByCity(code, dayNum);
+    const videoElement = document.getElementById('video'); // Récupère l'élément vidéo
+
+    if (tab[10] !== undefined) { // Assurez-vous que tab[10] existe
+        let videoSrc = '';
+
+        if (tab[10] >= 0 && tab[10] < 8) {
+            videoSrc = 'beauTemps.mp4';
+            document.body.style.backgroundColor = '#2D6ABA';
+        } else if ((tab[10] >= 8 && tab[10] < 100) || tab[10] >= 210) {
+            videoSrc = 'nuageux.mp4';
+            document.body.style.backgroundColor = '#295E9B';
+            
+        } else if (tab[10] >= 100 && tab[10] < 210) {
+            videoSrc = 'eclair.mp4';
+            document.body.style.backgroundColor = '#183D68';
+        }
+
+        if (videoElement) {
+            videoElement.src = videoSrc; // Change le source de la vidéo
+            videoElement.load(); // Recharge la vidéo
+        }
+    }
 }
