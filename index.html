@@ -35,7 +35,7 @@
 
             <div class="divOptions">
                 <label>Nombre de jours : </label>
-                <input id="numberDays" type="number"> 
+                <input id="numberDays" type="number" min="1"> 
             </div>
             
             <div class="divOptions">
@@ -63,19 +63,22 @@
                 <input id="checkBoxWindDirection" type="checkbox">
             </div>
 
-            <div><button type="button" id="buttonValidateOptions">valider</button></div>
+            <div><button type="submit" id="buttonValidateOptions">valider</button></div>
         </form>
     </div>
 
+    <button id="buttonPreviousDay" type="button">jour prècèdent</button>
     <div id="divInfo">
+        <p id="pDate"></p>
         <p id="pMin"></p>
         <p id="pMax"></p>
         <p id="pPrain"></p>
         <p id="pSun"></p>
+        <div id="divOption">
+        </div>
     </div>
+    <button id="buttonNextDay" type="button">jour suivant</button>
 
-    <div id="divOption">
-    </div>
 
     <footer>
         <label>Réalisé par Bérot Mathis, Remo Tarek, Courtois Louison</label>

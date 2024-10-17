@@ -5,6 +5,8 @@ const selectCityElement = document.getElementById("selectCity");
 const buttonValidateElement = document.getElementById('buttonValidate'); 
 const buttonOptionsElement = document.getElementById('options'); 
 const buttonValidateOptionsElement = document.getElementById('buttonValidateOptions'); 
+const buttonNextDayElement = document.getElementById('buttonNextDay'); 
+const buttonPreviousDayElement = document.getElementById('buttonPreviousDay'); 
 const formOptionsElement = document.getElementById('formOptions'); 
 const divFormOptionsElement =  document.getElementById('divFormOptions'); 
 const divOptionsElement = document.getElementById('divOption'); 
@@ -24,48 +26,69 @@ const numberDaysElement = document.getElementById('numberDays');
 //Hiding the validation button 
 hide(buttonValidateElement);  
 
+//Hiding the nextDay button
+hide(buttonNextDayElement);
+
+//Hiding the previousDay button
+hide(buttonPreviousDayElement); 
+
+//necessary variables 
+//The number of the day being displayed 
+let dayNum; 
+//The inseeCode of the city being displayed 
+let code; 
+
+
+//putting the number of days to 1 by default 
+if(localStorage.getItem('numberDaysElement') == null){
+    localStorage.setItem('numberDaysElement', 1); 
+}
+
+
 /*
  *adding a listener on the validateOptions button 
- *this listener close the form options when clicked
- *it stores the choices of the user in the local storage  
+ *this listener close the options form when the button is clicked
+ *it stores the choices of the user in the local storage
+ *it reloads the page   
 */
-buttonValidateOptionsElement.addEventListener('click', ()=>{
+formOptionsElement.addEventListener('submit', (evt)=>{
 
+    evt.preventDefault(); 
 
-    //stocking the choices of the user 
+    //storing the choices of the user 
     if(checklatitude.checked){
         localStorage.setItem('checklatitude', true); 
     }
     else{
-        localStorage.setItem('checklatitude', null);
+        localStorage.removeItem('checklatitude'); 
     }
 
     if(checklongitude.checked){
         localStorage.setItem('checklongitude', true); 
     }
     else{
-        localStorage.setItem('checklongitude', null);
+        localStorage.removeItem('checklongitude'); 
     }
 
     if(checkRainAccumulation.checked){
         localStorage.setItem('checkRainAccumulation', true); 
     }
     else{
-        localStorage.setItem('checkRainAccumulation', null);
+        localStorage.removeItem('checkRainAccumulation'); 
     }
 
     if(checkWindSpeed.checked){
         localStorage.setItem('checkWindSpeed', true); 
     }
     else{
-        localStorage.setItem('checkWindSpeed', null);
+        localStorage.removeItem('checkWindSpeed'); 
     }
 
     if(checkWindDirection.checked){
         localStorage.setItem('checkWindDirection', true); 
     }
     else{
-        localStorage.setItem('checkWindDirection', null);
+        localStorage.removeItem('checkWindDirection'); 
     }
 
     //getting the number of days 
@@ -73,6 +96,8 @@ buttonValidateOptionsElement.addEventListener('click', ()=>{
 
     //hiding the options form
     divFormOptionsElement.style.display = "none";
+
+    location.reload(); 
     
 }); 
 
@@ -113,13 +138,83 @@ buttonOptionsElement.addEventListener('click', ()=>{
 }); 
 
 /*
+ *adding a listener to the next day button
+ *this listener increments dayNum and then dispaly the informations of this day
+ *If the day displayed is the last day asked by the user, the button disappears  
+ *If the day displayed is the 2nd day, the previous day button appears
+ */
+buttonNextDayElement.addEventListener('click', async ()=>{
+
+    dayNum++;
+
+    //Hiding the button if it's the last day
+    if(dayNum == localStorage.getItem('numberDaysElement')-1){
+        hide(buttonNextDayElement); 
+    }
+
+    //Showing the previousDay button if it's the 2nd day
+    if(dayNum == 1){
+        show(buttonPreviousDayElement); 
+    }
+
+    //Showing the informations of this day
+    tab = await fetchWeatherByCity(code,dayNum);
+    weatherDisplay(tab);
+}); 
+
+
+/*
+ *adding a listener to the previous day button
+ *this listener decrements dayNum and then dispaly the informations of this day
+ *If the day displayed is the first day, the button disappears 
+ *If the day displayed is the not the last day, the next day button appears 
+ */
+buttonPreviousDayElement.addEventListener('click', async ()=>{
+
+    dayNum--; 
+
+    //Hiding the button if it's the first day
+    if(dayNum == 0){
+        hide(buttonPreviousDayElement); 
+    }
+
+    //Showing the NextDay button if it's not the last day
+    if(dayNum == localStorage.getItem('numberDaysElement')-2){
+        show(buttonNextDayElement); 
+    }
+
+    //Showing the information of this day
+    tab = await fetchWeatherByCity(code,dayNum);
+    weatherDisplay(tab);
+});
+
+/*
  *adding a listener on the validation elemnt 
  *This listener shows the weather informations when the validation button is clicked
  */ 
 buttonValidateElement.addEventListener('click',async ()=>{
-        let zipCode = selectCityElement.value;
-        let tab = await fetchWeatherByCity(zipCode,0);
+
+        let tab; 
+        dayNum = 0; 
+
+        //getting the code of the city 
+        code = selectCityElement.value;
+
+        //Getting the num of days stored in the browser 
+        let numOfDays = localStorage.getItem('numberDaysElement'); 
+
+        //getting the weather information and displaying it
+        tab = await fetchWeatherByCity(code,dayNum);
         weatherDisplay(tab);
+        
+        //If there is more than one day to dispaly
+        if(numOfDays > 1){
+            //showing the next day button 
+            show(buttonNextDayElement); 
+        }
+
+
+        
 });
 
 /*
@@ -172,7 +267,7 @@ async function fetchWeatherByCity(cityCode,day) {
         );
         const data = await response.json();
         
-        console.log(data);
+        //console.log(data);
         
         // storing the informations in the tab
         tab[0] = data.forecast.tmax;
@@ -195,8 +290,16 @@ async function fetchWeatherByCity(cityCode,day) {
     return tab;
 }
 
+/*
+ *adds a p element who's text content is the value entered in param to the options div
+*/
+function addToOptionsDiv(value){
+    let element = document.createElement('p'); 
+    element.textContent = value; 
+    divOptionsElement.appendChild(element); 
+}
 
-function weatherDisplay(tab,day){
+function weatherDisplay(tab){
     //reinitializing the informations 
     pDate.textContent = 'date : '; 
     pMax.textContent = 'Min : ';
@@ -217,41 +320,26 @@ function weatherDisplay(tab,day){
     //Verifiyng the options choosed by the user and displaying them
 
     if(localStorage.getItem('checklatitude') != null){
-        //Creating the right element and adding it to the div
-        let pLatitude = document.createElement('p'); 
-        pLatitude.textContent = 'latitude : '+tab[5]; 
-        divOptionsElement.appendChild(pLatitude); 
+        addToOptionsDiv("latitude : "+tab[5].toFixed(2)); 
     }
 
 
     if(localStorage.getItem('checklongitude') != null){
-        //Creating the right element and adding it to the div
-        let pLongitude = document.createElement('p'); 
-        pLongitude.textContent = 'Longitude : '+tab[6]; 
-        divOptionsElement.appendChild(pLongitude); 
+        addToOptionsDiv("longitude : "+tab[6].toFixed(2)); 
     }
 
     if(localStorage.getItem('checkRainAccumulation') != null){
-        //Creating the right element and adding it to the div
-        let pRainAccumulation = document.createElement('p'); 
-        pRainAccumulation.textContent = 'Accumulation pluie : '+tab[7]; 
-        divOptionsElement.appendChild(pRainAccumulation); 
+        addToOptionsDiv("accumulation pluie : "+tab[7].toFixed(2));
     }
+ 
+    if(localStorage.getItem('checkWindSpeed') != null){
+        addToOptionsDiv("vitesse du vent : "+tab[8].toFixed(2));
 
-    if(localStorage.getItem('checkWindSpeed') != null){ 
-        tab[8] = data.forecast.wind10m;
-    }
-    else{
-        tab[8] = null;
     }
 
     if(localStorage.getItem('checkWindDirection') != null){
-        tab[9] = data.forecast.dirwind10m;
+        addToOptionsDiv("direction du vent : "+tab[9].toFixed(2));
     }
-    else{
-        tab[9] = null;
-    }
-
 
 }
 
@@ -354,4 +442,5 @@ function show(element){
  */
 function hide(element){
     element.style.display = 'none';
+}
 }
