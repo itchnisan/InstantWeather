@@ -9,7 +9,8 @@ const buttonNextDayElement = document.getElementById('buttonNextDay');
 const buttonPreviousDayElement = document.getElementById('buttonPreviousDay'); 
 const formOptionsElement = document.getElementById('formOptions'); 
 const divFormOptionsElement =  document.getElementById('divFormOptions'); 
-const divOptionsElement = document.getElementById('divOption'); 
+const divOptionsElement = document.getElementById('divOption');
+const divInfoElement = document.getElementById('divInfo'); 
 const pMax = document.getElementById('pMax');
 const pMin = document.getElementById('pMin');
 const pRain = document.getElementById('pPrain');
@@ -295,11 +296,18 @@ async function fetchWeatherByCity(cityCode,day) {
 */
 function addToOptionsDiv(value){
     let element = document.createElement('p'); 
-    element.textContent = value; 
+    element.innerHTML = value; 
+    element.classList.add('option'); 
     divOptionsElement.appendChild(element); 
 }
 
 function weatherDisplay(tab){
+
+    //Modifying the information container's style
+    divInfoElement.style.backgroundColor = '#ffffff56'; 
+    divInfoElement.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.1)'; 
+
+
     //reinitializing the informations 
     pDate.innerHTML = '<i class="fa-solid fa-calendar-days"></i> '; 
     pMax.textContent = 'Max : ';
@@ -320,25 +328,31 @@ function weatherDisplay(tab){
     //Verifiyng the options choosed by the user and displaying them
 
     if(localStorage.getItem('checklatitude') != null){
-        addToOptionsDiv("latitude : "+tab[5].toFixed(2)); 
+        addToOptionsDiv('<i class="fa-solid fa-globe"></i> '+tab[5].toFixed(5)); 
     }
 
 
     if(localStorage.getItem('checklongitude') != null){
-        addToOptionsDiv("longitude : "+tab[6].toFixed(2)); 
+
+        if(localStorage.getItem('checklatitude') == null){
+            addToOptionsDiv('<i class="fa-solid fa-globe"></i> '+tab[6].toFixed(5)); 
+        }
+        else{
+            divOptionsElement.children.item(0).innerHTML += '/'+tab[6].toFixed(5); 
+        }
     }
 
     if(localStorage.getItem('checkRainAccumulation') != null){
-        addToOptionsDiv("accumulation pluie : "+tab[7].toFixed(2));
+        addToOptionsDiv('<i class="fa-solid fa-cloud-rain"></i> '+tab[7].toFixed(2));
     }
  
     if(localStorage.getItem('checkWindSpeed') != null){
-        addToOptionsDiv("vitesse du vent : "+tab[8].toFixed(2));
+        addToOptionsDiv('<i class="fa-solid fa-wind"></i> '+tab[8].toFixed(2));
 
     }
 
     if(localStorage.getItem('checkWindDirection') != null){
-        addToOptionsDiv("direction du vent : "+tab[9].toFixed(2));
+        addToOptionsDiv('<i class="fa-solid fa-compass"></i> '+tab[9].toFixed(2));
     }
 
 }
