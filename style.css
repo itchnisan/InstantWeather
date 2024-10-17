@@ -38,16 +38,15 @@ body {
 }
 
 #formOptions{
-    background-color: #ffffff56;
-    border-radius: 15px; 
+    background-color:#205297;
+    border-radius: 30px; 
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
     margin: 15% auto; 
     padding: 20px;
-    border: 1px solid rgb(71, 185, 230); ;
-    width: 80%; 
+    width: 30%; 
 }
 
 #divZipCode, #divCity, .divOptions {
@@ -150,7 +149,7 @@ footer {
 }
 
 .modal {
-    display: none; 
+    display: none;
     position: fixed; 
     z-index: 1; 
     left: 0;
@@ -158,7 +157,7 @@ footer {
     width: 100%; 
     height: 100%; 
     overflow: auto; 
-    background-color: #449de6; 
+    
 
 }
 
