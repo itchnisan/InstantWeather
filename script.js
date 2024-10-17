@@ -442,4 +442,5 @@ function show(element){
  */
 function hide(element){
     element.style.display = 'none';
+
 }
