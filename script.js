@@ -23,6 +23,8 @@ const checkWindSpeed = document.getElementById('checkBoxWindSpeed');
 const checkWindDirection = document.getElementById('checkBoxWindDirection');
 const numberDaysElement = document.getElementById('numberDays'); 
 const video = document.getElementById('video'); 
+const buttonNextDay = document.getElementById('buttonNextDay');
+const buttonPreviousDay = document.getElementById('buttonPreviousDay');
 
 
 
@@ -317,6 +319,8 @@ function weatherDisplay(tab){
     pMin.textContent = 'Min : ';
     pRain.innerHTML = '<i class="fa-solid fa-droplet"></i> ';
     pSun.innerHTML = '<i class="fa-solid fa-sun"></i> ';
+    buttonNextDay.innerHTML = '<i class="fa-solid fa-angles-right"></i>';
+    buttonPreviousDay.innerHTML = '<i class="fa-solid fa-angles-left"></i>';
 
     //Clearing the options div
     divOptionsElement.innerHTML = ''; 

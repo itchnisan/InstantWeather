@@ -23,9 +23,17 @@ body {
 
 #divHeader h1 {
     color: white;
-    font-size: 80px;
+    font-size: 100px;
     font-weight: bold;
 }
+
+.coiny-regular {
+    font-family: "Coiny", system-ui;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  
 
 #form {
     border-radius: 15px;
@@ -39,14 +47,15 @@ body {
 
 #formOptions{
     background-color:#205297;
-    border-radius: 30px; 
+    border-radius: 40px; 
+    font-size: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
     margin: 15% auto; 
     padding: 20px;
-    width: 30%; 
+    width: 40%; 
 }
 
 #divZipCode, #divCity, .divOptions {
@@ -54,7 +63,7 @@ body {
 }
 
 #inputZipCode, #selectCity, #numberDays {
-    border-radius: 8px;
+    border-radius: 50px;
     padding: 10px;
     width: 100%;
     max-width: 320px;
@@ -68,15 +77,9 @@ body {
     outline: none;
 }
 
-#divInfo {
-    border-radius: 15px;
-    padding: 20px;
-    width: 40%;
-    text-align: left; 
-}
 
 #divInfo p {
-    font-size: 18px;
+    font-size: 24px;
     margin: 10px 0;
 }
 
@@ -89,7 +92,7 @@ body {
 
 
 #pDate, #pPrain, #pSun, #pMax, #pMin {
-    font-size: 20px; 
+    font-size: 24px; 
     font-weight: bold;
     text-align: center;
     flex-grow: 1; 
@@ -109,12 +112,12 @@ body {
 #divOption {
     display: flex;
     flex-wrap: wrap; 
+    font-size: 200px;
     justify-content: space-between;
     margin-top: 20px;
 }
 
 .option {
-    font-size: 20px; 
     font-weight: bold;
     text-align: center;
     flex-grow: 1; 
@@ -125,11 +128,11 @@ footer {
     margin-top: 20px;
     text-align: center;
     color: white;
-    font-size: 14px;
+    font-size: 20px;
 }
 
 #buttonValidate, #options, #buttonValidateOptions{
-    border-radius: 8px;
+    border-radius: 50px;
     padding: 10px;
     width: 6em;
     border: none;
@@ -141,7 +144,8 @@ footer {
 }
 
 #buttonValidate:hover, #options:hover, #buttonValidateOptions{
-    background-color: #1c86ee;
+    background-color: white;
+    color: black;
 }
 
 #buttons{
@@ -162,21 +166,46 @@ footer {
 }
 
 #buttonPreviousDay, #buttonNextDay {
-    border-radius: 8px;
+    border-radius: 50px;
     padding: 10px 15px;
-    background-color: white;
-   
+    margin: 5px;
+    color: white;
     border: none;
     cursor: pointer;
+    background-color: #ffffff56;
     transition: background-color 0.3s ease;
 }
 
+#buttonPreviousDay{
+    float: left;
+}
+
+#buttonNextDay{
+    float: right;
+}
+
 #buttonPreviousDay:hover, #buttonNextDay:hover {
-    background-color: #1c86ee;
+    background-color: white;
+    color: black;
 }
 
 #video{
-    position: absolute;
+    position: fixed;
     height: 100%;
     z-index: -100;
+}
+
+#divInfo {
+    border-radius: 50px;
+    padding: 20px;
+    width: 50%;
+    display: flex; /* Ajoute flexbox pour la disposition */
+    justify-content: space-between; /* Espace entre les éléments (boutons à gauche et droite) */
+    align-items: center; /* Centrer verticalement */
+    text-align: left; 
+}
+
+#divInformation {
+    flex-grow: 1; /* Faire prendre tout l'espace restant à la div contenant les informations */
+    margin: 0 2em; /* Ajouter un peu de marge à gauche et à droite */
 }

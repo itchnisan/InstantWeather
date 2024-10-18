@@ -8,24 +8,27 @@
     <script src="https://kit.fontawesome.com/fd882fb6a5.js" crossorigin="anonymous"></script>
     <script defer src="script.js"></script>
     <script  src="rain.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Coiny&family=Modak&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="coiny-regular">
 
     <canvas id = "rain"></canvas>
     <video id="video" src="beauTemps.mp4" autoplay loop muted></video>
     <div id="divHeader">
-        <h1>InstantWeather</h1>
+        <h1 class="coiny-regular">InstantWeather</h1>
     </div>
 
     <form id="form">
         <div id="divZipCode">
             <label>Code postal :</label>
-            <input type="number" id="inputZipCode">
+            <input type="number" id="inputZipCode" placeholder="14123">
         </div>
         <div id="divCity">
             <label>Ville :</label>
             <select id="selectCity">
-                <option value="default">Veuilliez choisir une ville</option>
+                <option value="default">Veuillez choisir une ville</option>
             </select>
         </div>
         <div id="buttons">
@@ -71,20 +74,22 @@
         </form>
     </div>
 
-    <button id="buttonPreviousDay" type="button">jour précédent</button>
+    
     <div id="divInfo">
-        <div id="divTopRow">
-            <span id="pDate"></span>
-            <span id="pPrain"></span>
-            <span id="pSun"></span>
-            <span id="pMax"></span>
-            <span id="pMin"></span>
+        <button id="buttonPreviousDay" type="button"><</button>
+        <div id="divInformation">
+            <div id="divTopRow">
+                <span id="pDate"></span>
+                <span id="pPrain"></span>
+                <span id="pSun"></span>
+                <span id="pMax"></span>
+                <span id="pMin"></span>
+            </div>
+            <div id="divOption"></div>
         </div>
-        <div id="divOption"></div>
+        <button id="buttonNextDay" type="button">></button>
     </div>
-    <button id="buttonNextDay" type="button">jour suivant</button>
-
-
+    
     <footer>
         <label>Réalisé par Bérot Mathis, Remo Tarek, Courtois Louison</label>
     </footer>
