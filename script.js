@@ -25,6 +25,7 @@ const numberDaysElement = document.getElementById('numberDays');
 const video = document.getElementById('video'); 
 const buttonNextDay = document.getElementById('buttonNextDay');
 const buttonPreviousDay = document.getElementById('buttonPreviousDay');
+const rainContainer = document.getElementById('rain-container');
 
 
 
@@ -42,6 +43,8 @@ hide(buttonPreviousDayElement);
 let dayNum; 
 //The inseeCode of the city being displayed 
 let code; 
+//The rain interval
+let rainInterval;
 
 
 //putting the number of days to 1 by default 
@@ -308,6 +311,9 @@ function addToOptionsDiv(value){
 
 function weatherDisplay(tab){
 
+    //Stoping the rain of the previous Day
+    stopRain();
+
     //Modifying the information container's style
     divInfoElement.style.backgroundColor = '#ffffff56'; 
     divInfoElement.style.boxShadow = '0px 4px 8px rgba(0, 0, 0, 0.1)'; 
@@ -331,6 +337,14 @@ function weatherDisplay(tab){
     pMin.textContent += `${tab[1]}°C`;
     pRain.innerHTML += `${tab[3]}%`;
     pSun.innerHTML += `${tab[2]}`;
+ 
+
+    //Adding the rain animation if necessary 
+    if(tab[3] > 50){
+        console.log("génération pluie pour "+tab[3]);
+       generateRain(tab[3]);
+    }
+
 
     //Verifiyng the options choosed by the user and displaying them
 
@@ -361,7 +375,7 @@ function weatherDisplay(tab){
     if(localStorage.getItem('checkWindDirection') != null){
         addToOptionsDiv('<i class="fa-solid fa-compass"></i> '+tab[9].toFixed(2));
     }
-    setBackground();
+    setBackground(tab);
 
 }
 
@@ -466,8 +480,7 @@ function hide(element){
     element.style.display = 'none';
 }
 
-async function setBackground() {
-    let tab = await fetchWeatherByCity(code, dayNum);
+function setBackground(tab) {
     const videoElement = document.getElementById('video'); // Récupère l'élément vidéo
 
     if (tab[10] !== undefined) { // Assurez-vous que tab[10] existe
@@ -492,3 +505,66 @@ async function setBackground() {
         }
     }
 }
+
+
+
+/*
+ * generates a rain drop as a div 
+ * places the drop randomly on the screen
+ * adds the drop to the rain container 
+ * starts the animation and then removes the drop when the animation is done 
+ */
+function createRainDrop() {
+
+    //Creatin the div representing the drop 
+    const rainDrop = document.createElement('div');
+
+    //Adding the class rain-drop to the element
+    rainDrop.classList.add('rain-drop');
+
+    // placing the drop randomly on the secreen 
+    rainDrop.style.left = Math.random() * 100 + 'vw'; // Position horizontale aléatoire
+
+    // choosing a random drop speed 
+    rainDrop.style.animationDuration = Math.random() * 2 + 2 + 's';
+
+    //Adding a listener to delete the drop when the animation is finished
+    rainDrop.addEventListener('animationend', () => {
+        rainDrop.remove(); 
+    });
+
+    // adding the drop to the container
+    rainContainer.appendChild(rainDrop);
+}
+
+/*
+ * generattes rain drops permenantly
+ * represinting the intensity entred in param
+ */
+function generateRain(intensity) {
+
+    //Setting the frequency of the tain  
+    let frequency = (intensity<100)? 900+(1000-intensity*10) : 900;
+
+    //Stoping the previous interval
+    clearInterval(rainInterval); 
+
+    //starting the new Intervalle
+    rainInterval = setInterval(createRainDrop, frequency); 
+}
+
+/*
+ * Stops the rain
+ */ 
+function stopRain(){
+    //Stoping the intervalle
+    clearInterval(rainInterval); 
+    
+    //removing the already existing drops
+    const rainDrops = document.querySelectorAll('.rain-drop');
+    rainDrops.forEach(drop => {
+        drop.remove(); 
+    });
+}
+
+
