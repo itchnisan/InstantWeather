@@ -199,13 +199,43 @@ footer {
     border-radius: 50px;
     padding: 20px;
     width: 50%;
-    display: flex; /* Ajoute flexbox pour la disposition */
-    justify-content: space-between; /* Espace entre les éléments (boutons à gauche et droite) */
-    align-items: center; /* Centrer verticalement */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
     text-align: left; 
 }
 
 #divInformation {
-    flex-grow: 1; /* Faire prendre tout l'espace restant à la div contenant les informations */
-    margin: 0 2em; /* Ajouter un peu de marge à gauche et à droite */
+    flex-grow: 1; 
+    margin: 0 2em; 
+}
+
+
+#rain-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; 
+    overflow: hidden;
+    z-index: -1; 
+}
+
+
+.rain-drop {
+    position: absolute;
+    bottom: 100%;
+    width: 2px;
+    height: 15px;
+    background: rgba(255, 255, 255, 0.6); 
+    animation: fall linear infinite;
+    border-radius: 50%;
+}
+
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh); 
+    }
 }
