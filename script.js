@@ -523,7 +523,7 @@ function createRainDrop() {
     rainDrop.classList.add('rain-drop');
 
     // placing the drop randomly on the secreen 
-    rainDrop.style.left = Math.random() * 100 + 'vw'; // Position horizontale aléatoire
+    rainDrop.style.left = Math.random() * 100 + 'vw'; // Randome horizontal position
 
     // choosing a random drop speed 
     rainDrop.style.animationDuration = Math.random() * 2 + 2 + 's';
@@ -543,13 +543,13 @@ function createRainDrop() {
  */
 function generateRain(intensity) {
 
-    //Setting the frequency of the tain  
-    let frequency = (intensity<100)? 900+(1000-intensity*10) : 900;
+    //Setting the frequency of the rain  
+    let frequency = (intensity<100)? 200+(1000-intensity*10) : 200;
 
     //Stoping the previous interval
     clearInterval(rainInterval); 
 
-    //starting the new Intervalle
+    //starting the new Interval
     rainInterval = setInterval(createRainDrop, frequency); 
 }
 
@@ -557,7 +557,7 @@ function generateRain(intensity) {
  * Stops the rain
  */ 
 function stopRain(){
-    //Stoping the intervalle
+    //Stoping the interval
     clearInterval(rainInterval); 
     
     //removing the already existing drops
